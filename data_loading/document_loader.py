@@ -11,7 +11,7 @@ from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_experimental.text_splitter import SemanticChunker
 
 EMBED_MODEL_NAME = "BAAI/bge-small-en-v1.5"
-EMBED_DIMENSION = 384  # must match the model above
+EMBED_DIMENSION = 384  
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
@@ -75,7 +75,7 @@ class DataLoading:
         return df
 
     def chunking(self, df=None):
-        # Use the DataFrame passed in; fall back to the CSV if called standalone
+
         if df is None:
             df = pd.read_csv(self.csv_path)
 
@@ -104,7 +104,7 @@ class DataLoading:
         if chunks_df.empty:
             raise ValueError("chunks_df is empty - nothing to upload")
 
-        api_key = 'pcsk_5JWqMF_8o5YwbuBauJftaUAwostmT2dMiLAiTwQdApS8B7MQTgSgP8FYTNDZMzAK9Xzi6p'
+        api_key = 'add_pinecone_api_here'
         if not api_key:
             raise RuntimeError(
                 "PINECONE_API_KEY is not set. Set it as an environment variable "
@@ -112,7 +112,7 @@ class DataLoading:
             )
         pc = Pinecone(api_key=api_key)
 
-        # Create the index if it doesn't exist
+ 
         if not pc.has_index(index_name):
             pc.create_index(
                 name=index_name,
@@ -125,14 +125,13 @@ class DataLoading:
 
         index = pc.Index(index_name)
 
-        # Embed all chunks in one batched call (GPU-efficient)
+
         texts = chunks_df["data"].tolist()
         embeddings = self.embed_model.embed_documents(texts)
 
         vectors = []
         for (_, row), emb in zip(chunks_df.iterrows(), embeddings):
             vectors.append({
-                # doc_id-chunk_index is unique even if filenames repeat across folders
                 "id": f"{row['doc_id']}-{row['chunk_index']}",
                 "values": emb,
                 "metadata": {
@@ -153,7 +152,7 @@ class DataLoading:
 
 
 if __name__ == "__main__":
-    loader = DataLoading(r"C:\Users\anand\PycharmProjects\PythonProject1\docs\data\data")
+    loader = DataLoading(r"file_destination")
     df = loader.load()
     chunks = loader.chunking(df)
     loader.upload_to_pinecone(chunks)
