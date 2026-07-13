@@ -17,13 +17,13 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 def clean_text(t):
     t = unicodedata.normalize("NFKC", str(t))
-    t = re.sub(r"(\w+)-\s+(\w+)", r"\1\2", t)                 # fix hyphen-split words
-    t = re.sub(r"\bCity\s*,\s*State\s*,?\s*(USA)?\b", "", t)  # anonymizer placeholders
+    t = re.sub(r"(\w+)-\s+(\w+)", r"\1\2", t)            
+    t = re.sub(r"\bCity\s*,\s*State\s*,?\s*(USA)?\b", "", t) 
     t = re.sub(r"\bCompany Name\b", "", t)
-    t = re.sub(r"\s+([,.;:])", r"\1", t)                      # space before punctuation
-    t = re.sub(r"[ \t]+", " ", t)                             # collapse spaces/tabs
-    t = re.sub(r"\n\s*\n+", "\n\n", t)                        # collapse blank lines
-    t = re.sub(r"(?<!\n)\n(?!\n)", " ", t)                    # join single line-breaks
+    t = re.sub(r"\s+([,.;:])", r"\1", t)                 
+    t = re.sub(r"[ \t]+", " ", t)                         
+    t = re.sub(r"\n\s*\n+", "\n\n", t)                   
+    t = re.sub(r"(?<!\n)\n(?!\n)", " ", t)                    
     return t.strip()
 
 
@@ -31,7 +31,7 @@ class DataLoading:
     def __init__(self, file_path, csv_path="extracted_resumes.csv"):
         self.file_path = Path(file_path)
         self.csv_path = csv_path
-        self._embed_model = None  # lazy-loaded, shared by chunking + upload
+        self._embed_model = None
 
     @property
     def embed_model(self):
