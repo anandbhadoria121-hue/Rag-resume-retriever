@@ -1,19 +1,3 @@
-"""Retrieval evaluation for the resume RAG system.
-
-Uses the `class` metadata as ground truth: a query about accounting
-should retrieve ACCOUNTANT chunks. Computes, per query and overall:
-
-  hit@k        - did ANY of the top-k chunks come from the expected class?
-  precision@k  - what fraction of the top-k chunks came from it?
-  MRR          - 1/rank of the first correct chunk (rewards ranking it high)
-
-Run with:
-    python evaluate_retrieval.py
-
-Edit EVAL_QUERIES to match the classes that exist in YOUR dataset -
-the class name must match your folder names exactly.
-"""
-
 from rag_pipeline import RAGPipeline
 
 TOP_K = 5
