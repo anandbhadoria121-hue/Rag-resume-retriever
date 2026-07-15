@@ -7,9 +7,6 @@ EVAL_QUERIES = [
     ("experience with account reconciliation and financial reporting", "ACCOUNTANT"),
     ("candidate who managed accounts payable teams", "ACCOUNTANT"),
     ("knowledge of general ledger and fiscal year-end close", "ACCOUNTANT"),
-    # add queries for your other classes, e.g.:
-    # ("built machine learning models in python", "DATA-SCIENCE"),
-    # ("taught elementary school students", "TEACHER"),
 ]
 
 
